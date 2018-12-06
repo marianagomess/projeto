@@ -1,0 +1,359 @@
+\\Jogo da Velha
+
+import java.util.Scanner;
+
+class Model {
+    public char board[][];
+
+    public Model() {
+        board = new char[3][3];
+        board[0][0] = ' ';
+        board[0][1] = ' ';
+        board[0][2] = ' ';
+        board[1][0] = ' ';
+        board[1][1] = ' ';
+        board[1][2] = ' ';
+        board[2][0] = ' ';
+        board[2][1] = ' ';
+        board[2][2] = ' ';
+    }
+
+    public String key() {
+        String result = "" +
+                board[0][0] + board[1][0] + board[2][0] +
+                board[0][1] + board[1][1] + board[2][1] +
+                board[0][2] + board[1][2] + board[2][2];
+
+        return result;
+    }
+
+    public void print() {
+        System.out.println(
+            "|" + board[0][0] + "|" + board[1][0] + "|" + board[2][0] + "|\n" +
+            "|" + board[0][1] + "|" + board[1][1] + "|" + board[2][1] + "|\n" +
+            "|" + board[0][2] + "|" + board[1][2] + "|" + board[2][2] + "|");
+    }
+
+
+    public boolean play(char mark, int i, int j) {
+        boolean succeeded = false;
+        if (mark != 'O' && mark != 'o' && mark != 'X' && mark != 'x') {
+            System.out.println("Jogada inválida, insira X ou O.");
+        }
+        if (i < 0 || i > 2 || j < 0 || j > 2) {
+            System.out.println("Jogada inválida, posicione a jogada entre os valores 0 e 2.");
+        }
+        if (board[j][i] != ' ') {
+            System.out.println("Jogada inválida, posição já marcada.");
+        } else {
+            board[j][i] = mark;
+            succeeded = true;
+            print();
+        }
+        return succeeded;
+    }
+}
+
+class Agent {
+    public Model model;
+    public boolean finished;
+
+    Agent() {
+        model = new Model();
+        finished = false;
+    }
+
+    public boolean isWinner(){
+        String key = model.key();
+        if(key.equals("XOO X   X")) finished = true;
+        if(key.equals("XO OX   X")) finished = true;
+        if(key.equals("XO  XO  X")) finished = true;
+        if(key.equals("XO  X O X")) finished = true;
+        if(key.equals("XO  X  OX")) finished = true;
+        if(key.equals("XOOXX X O")) finished = true;
+        if(key.equals("XOXOX X O"))	finished = true;
+        if(key.equals("XO XXOX O"))	finished = true;
+        if(key.equals("XO XX XOO"))	finished = true;
+        if(key.equals("XO OO XXX"))	finished = true;
+        if(key.equals("XO OX XOX"))	finished = true;
+        if(key.equals("XO XO X  "))	finished = true;
+        if(key.equals("XOOX  X  "))	finished = true;
+        if(key.equals("XO X OX  "))	finished = true;
+        if(key.equals("XO X  XO "))	finished = true;
+        if(key.equals("XO X  X O"))	finished = true;
+        return finished;
+    }
+
+    public boolean play() {
+        String key = model.key();
+        if (key.equals("XO       ")) model.play('X', 2, 0);
+        if (key.equals("XO O  X  ")) model.play('X', 2, 2);
+        if (key.equals("XO OO X X")) model.play('X', 2, 1);
+        if (key.equals("XO O  XOX")) model.play('X', 1, 1);
+        if (key.equals("XO  O X  ")) model.play('X', 1, 0);
+        if (key.equals("XOO   X  ")) model.play('X', 1, 0);
+        if (key.equals("XO   OX  ")) model.play('X', 1, 0);
+        if (key.equals("XO    XO ")) model.play('X', 1, 0);
+        if (key.equals("XO    X O")) model.play('X', 1, 0);
+        return true;
+    }
+
+    public boolean play(char mark, int i, int j) {
+        return model.play(mark, i, j);
+    }
+}
+
+public class TicTacToe {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Vamos jogar jogo da velha, vou começar");
+
+        Agent agent = new Agent();
+        agent.play('X', 0, 0);
+
+        while (!agent.finished) {
+            if(agent.isWinner()){
+                agent.finished = false;
+                System.out.println("O jogo acabou, e o jogador 'X' venceu!");
+                System.exit(0);
+            } else {
+                boolean isValidPlay = false;
+                while (!isValidPlay) {
+                    System.out.println("digite a posição da casa que você vai jogar");
+                    int i = Integer.parseInt(scanner.nextLine());
+                    int j = Integer.parseInt(scanner.nextLine());
+                    isValidPlay = agent.play('O', i, j);
+                }
+                agent.play();
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+\\ChatBox
+
+import java.text.Collator;
+import java.util.Locale;
+import java.util.Scanner;
+
+
+ /* @author Mariana Gomes
+
+
+import java.util.Scanner;
+
+class Agent{
+    public String lut[][];
+      
+    public Agent(){
+           
+        lut= new String[54][2];{
+        
+        lut[0][0] = "Qual o nome da tia de harry?";
+        lut[0][1] = "petunia";
+        
+        lut[1][0] = "O que significa trouxa?";
+        lut[1][1] = "Não bruxo";
+        
+        lut[2][0] = "Quem são os alunos inimigos de harry?";
+        lut[2][1] = "Draco, Crabbe e Goyle";
+        
+        lut[3][0] = "Quantos jogadores tem cada equipe de quadribol?";
+        lut[3][1] = "7";
+        
+        lut[4][0] = "Qual o nome do animal que protege a pedra filosofal?";
+        lut[4][1] = "Fofo";
+        
+        lut[5][0] = "Qual o símbolo da casa de grifinoria?";
+        lut[5][1] = "leão";
+        
+        lut[6][0] = "Qual o símbolo da casa de corvinal?";
+        lut[6][1] = "Águia";
+        
+        lut[7][0] = "Qual o símbolo da casa de lufa lufa?";
+        lut[7][1] = "Texugo";
+        
+        lut[8][0] = "Qual o símbolo da casa de sonserina?";
+        lut[8][1] = "Serpente";
+        
+        lut[9][0] = "Que tipo de pena foi usada para fazer o núcleo da varinha de Voldemort?";
+        lut[9][1] = "pena de fênix";
+        
+        lut[10][0] = "Quantos pontos vale o pomo de ouro?";
+        lut[10][1] = "150";
+        
+        lut[11][0] = "Quem deu o feitiço para deixar o 'perebas' amarelo?";
+        lut[11][1] = "Fred";
+        
+        lut[12][0] = "Qual o nome do professor de feitiços?";
+        lut[12][1] = "Filio Flitwick";
+        
+        lut[13][0] = "O que Hagrid coloca em Duda quando ele come o bolo de Harry?";
+        lut[13][1] = "Rabo de porco";
+        
+        lut[14][0] = "Quando é o aniversário de Harry?";
+        lut[14][1] = "31/06";
+        
+        lut[15][0] = "Qual a cor dos olhos de Harry?";
+        lut[15][1] = "Azul";
+        
+        lut[16][0] = "Qual o nome do lugar que harry compra seus materiais?";
+        lut[16][1] = "Beco Diagonal.";
+        
+        lut[17][0] = "Qual o verdadeiro nome de Voldemort?";
+        lut[17][1] = "Tom Marvolo Riddle";
+        
+        lut[18][0] = "Qual o monstro que habitava a câmara secreta?";
+        lut[18][1] = "Basilisco";
+        
+        lut[19][0] = "Objetos que Voldemort usa para guardar partes de sua alma?";
+        lut[19][1] = "Horcruxes";
+        
+        lut[20][0] = "Quem é o prisioneiro de Askaban?";
+        lut[20][1] = "Sirius Black";
+        
+        lut[21][0] = "Quem é Igor Krum?";
+        lut[21][1] = "Famoso jogador de quadribol";
+        
+        lut[22][0] = "Quem é a autora de Harry Potter?";
+        lut[22][1] = "J.K. Rowling";
+        
+        lut[23][0] = "Qual o lema de Hogwarts?";
+        lut[23][1] = "Nunca faça cócegas em um dragão adormecido";
+        
+        lut[24][0] = "Quem mata Dumbledore?";
+        lut[24][1] = "Severo Snape";
+        
+        lut[25][0] = "Qual o nome do ator de Rony?";
+        lut[25][1] = "Rupert Grint";
+        
+        lut[26][0] = "Qual o nome do dragão de Hagrid?";
+        lut[26][1] = "Noberto";
+        
+        lut[27][0] = "Em que animago o pai de Harry conseguia se transformar?";
+        lut[27][1] = "Cervo";
+        
+        lut[28][0] = "Qual o apelido de Tiago Potter?";
+        lut[28][1] = "Pontas";
+        
+        lut[29][0] = "Qual o apelido de Sirius?";
+        lut[29][1] = "Almofadinha";
+        
+        lut[30][0] = "Qual o apelido de Pedro?";
+        lut[30][1] = "Aluado";
+        
+        lut[31][0] = "Qual o apelido de Reno?";
+        lut[31][1] = "Rabicho";
+        
+        lut[32][0] = "Qual o nome da professora que Nagini mata?";
+        lut[32][1] = "Caridade Burbage";
+        
+        lut[33][0] = "De quem Voldemort pede a varinha para matar Harry?";
+        lut[33][1] = "Lúcio Malfoy";
+        
+        lut[34][0] = "De que é feita a varinha de Lucio Malfoy?";
+        lut[34][1] = "Olmo. E o núcleo é de fibra de coração de dragão";
+        
+        lut[35][0] = "Quem perde a orelha?";
+        lut[35][1] = "Jorge";
+        
+        lut[36][0] = "O que Dumbledore deixa para Rony?";
+        lut[36][1] = "Desiluminador";
+        
+        lut[37][0] = "O que Dumbledore deixa para Hermione?";
+        lut[37][1] = "Um livro";
+        
+        lut[38][0] = "O que Dumbledore deixa para Harry?";
+        lut[38][1] = "Pomo de Ouro";
+        
+        lut[39][0] = "Para onde harry vai quando é atacado no bar por comensais da morte?";
+        lut[39][1] = "Casa de Sirius";
+        
+        lut[40][0] = "O que significa R.A.B?";
+        lut[40][1] = "Régulo Arthuro Black";
+        
+        lut[41][0] = "O que está escrito no profeta diario sobre harry?";
+        lut[41][1] = "Indesejável n1";
+        
+        lut[42][0] = "O que Dobby diz a harry quando o reencontra?";
+        lut[42][1] = "Harry Potter, há quanto tempo?!";
+        
+        lut[43][0] = "Qual o nome do livro que Rita Skeeter escreveu sobre Dumbledore?";
+        lut[43][1] = "A vida e as mentiras de Alvo Dumbledore";
+        
+        lut[44][0] = "Onde Voldemort mata Severo Snape?";
+        lut[44][1] = "Casa dos Gritos";
+        
+        lut[45][0] = "Quem mata Severo Snape?";
+        lut[45][1] = "Voldemort";
+        
+        lut[46][0] = "Qual o nome dos filhos de Harry Potter?";
+        lut[46][1] = "Tiago, Alvo e Lilian";
+        
+        lut[47][0] = "Quem foi a pessoa mais corajosa que Harry ja conheceu?";
+        lut[47][1] = "Severo Snape";
+        
+        lut[48][0] = "Qual o nome dos filhos de Hermione com Rony?";
+        lut[48][1] = "Rosa e Hugo";     
+            
+        lut[49][0] = "No capítulo dez, a professora Minerva diz que Harry e Rony tiveram muita sorte. Por quê?";
+        lut[49][1] = "porque poderiam ter sido mortos enfrentando o trasgo";
+        
+        lut[50][0] = "O que Hagrid leva a Harry na noite em que ele foi até o Casebre-Sobre-o-Rochedo?";
+        lut[50][1] = "bolo de aniversário";
+
+    } 
+}
+    public String ask(String question){
+        
+       String answer ="Eu não sei!";
+        boolean found =false;
+        boolean end=false;
+        int i= 0;
+
+     //ignora letras maisculas de minusculas
+     
+     while(!found && !end){
+       if(question.equalsIgnoreCase (lut[i][0])){
+           found = true;
+           answer =lut [i][1];
+       }++i;
+       if(i>=lut.length){
+           end=true;
+       }  
+       //verifica se uma frase está contida na outra.   
+}
+        return answer;  
+       }
+}
+public class Main {
+  
+    public static void main(String[] args) {
+      
+        System.out.println("Feito por uma potterhead!!");
+            System.out.println("Qual a sua dúvida?");
+                Scanner scanner = new Scanner(System.in);
+                    String  question = scanner .nextLine(); 
+                        question= question.replace(".", "");
+                            question= question.replace("/", "");
+                                question= question.replace("?", "");
+                            question= question.replace("-", "");
+                        question= question.replace("é", "e");   
+                    question= question.replace("á", "a");   
+                System.out.println("Good!");
+            Agent bot= new Agent();
+        while(!question.equals("sair"))
+        {
+            System.out.println(bot.ask(question));
+            question = scanner.nextLine();
+        } 
+    }    
+}
